@@ -70,5 +70,6 @@ An automated, eco-friendly irrigation system powered by solar energy. It intelli
 
 ---
 
-Feel free to add a circuit diagram, demo images, or working video for more clarity.
+Our circuit looked somewhat like this:
+![Smart Irrigation Circuit Diagram](https://github-production-user-asset-6210df.s3.amazonaws.com/190762103/452787386-2c302532-7b01-455c-82ba-f0942d54cc3d.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250608%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250608T125833Z&X-Amz-Expires=300&X-Amz-Signature=2cab874ce51908ddbff6f6106ff0b0c45248d4d49043de767b1ba4981e875a2b&X-Amz-SignedHeaders=host)
 
