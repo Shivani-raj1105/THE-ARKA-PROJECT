@@ -1,0 +1,286 @@
+
+#include <DHT.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define DHTPIN 4
+#define DHTTYPE DHT11
+#define SOIL_MOISTURE A0
+#define RELAY_PIN 8
+#define BUZZER 7
+
+
+bool RELAY_ACTIVE_HIGH = false; 
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+
+int wetThreshold = 600;
+int dryThreshold = 800;
+int pumpDuration = 15000;
+
+
+bool pumpRunning = false;
+unsigned long pumpStartTime = 0;
+unsigned long lastSensorRead = 0;
+unsigned long lastLCDUpdate = 0;
+unsigned long lastForceOff = 0;
+
+const int sensorInterval = 1000;
+const int lcdInterval = 1000;
+const int forceOffInterval = 2000;
+
+DHT dht(DHTPIN, DHTTYPE);
+
+int soilMoisture = 0;
+float temperature = 0;
+float humidity = 0;
+bool dhtError = false;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(F("🔧 PUMP RELAY FIX MODE"));
+  Serial.println(F("======================"));
+  
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  
+  
+  Serial.println(F("🔧 FORCING PUMP OFF..."));
+  Serial.println(F("   Trying HIGH signal..."));
+  digitalWrite(RELAY_PIN, HIGH);
+  delay(2000);
+  
+  Serial.println(F("   Trying LOW signal..."));
+  digitalWrite(RELAY_PIN, LOW);
+  delay(2000);
+  
+  Serial.println(F("   Setting to configured OFF state..."));
+  forceRelayOff();
+  
+  digitalWrite(BUZZER, LOW);
+
+  Wire.begin();
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  
+  lcd.setCursor(0, 0);
+  lcd.print(F("Relay Fix Mode"));
+  lcd.setCursor(0, 1);
+  lcd.print(F("Force OFF test"));
+  delay(2000);
+  
+  dht.begin();
+  delay(1000);
+  
+  Serial.println(F("📊 Configuration:"));
+  Serial.print(F("   Relay Type: ")); Serial.println(RELAY_ACTIVE_HIGH ? F("Active HIGH") : F("Active LOW"));
+  Serial.print(F("   OFF Signal: ")); Serial.println(RELAY_ACTIVE_HIGH ? F("LOW") : F("HIGH"));
+  Serial.println(F("   ❓ IS PUMP ACTUALLY OFF NOW?"));
+  Serial.println(F("======================"));
+  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(F("System Ready"));
+  lcd.setCursor(0, 1);
+  lcd.print(F("Force OFF mode"));
+  delay(1000);
+}
+
+void loop() {
+  unsigned long currentTime = millis();
+  
+  // Read sensors
+  if (currentTime - lastSensorRead >= sensorInterval) {
+    lastSensorRead = currentTime;
+    readSensors();
+    controlPumpWithForceOff();
+  }
+  
+
+  if (currentTime - lastLCDUpdate >= lcdInterval) {
+    lastLCDUpdate = currentTime;
+    updateLCD();
+  }
+  
+  if (currentTime - lastForceOff >= forceOffInterval) {
+    lastForceOff = currentTime;
+    if (!pumpRunning) {
+      forceRelayOff(); 
+    }
+  }
+  
+
+  if (pumpRunning && (currentTime - pumpStartTime >= pumpDuration)) {
+    Serial.println(F("⏰ SAFETY: Force stopping pump"));
+    forcePumpOff();
+    showMessage(F("SAFETY STOP!"), F("Force OFF"));
+  }
+  
+  delay(50);
+}
+
+void readSensors() {
+  soilMoisture = analogRead(SOIL_MOISTURE);
+  humidity = dht.readHumidity();
+  temperature = dht.readTemperature();
+  
+  if (isnan(humidity) || isnan(temperature)) {
+    if (!dhtError) {
+      Serial.println(F("⚠️ DHT11 Error"));
+      dhtError = true;
+      digitalWrite(BUZZER, HIGH);
+    }
+  } else {
+    if (dhtError) {
+      Serial.println(F("✅ DHT11 OK"));
+      dhtError = false;
+      digitalWrite(BUZZER, LOW);
+    }
+  }
+  
+  Serial.print(F("📊 M:")); Serial.print(soilMoisture);
+  Serial.print(F(" (")); Serial.print(getSoilStatus()); Serial.print(F(")"));
+  if (!dhtError) {
+    Serial.print(F(" T:")); Serial.print(temperature, 1);
+    Serial.print(F(" H:")); Serial.println(humidity, 1);
+  } else {
+    Serial.println(F(" DHT:ERR"));
+  }
+}
+
+void controlPumpWithForceOff() {
+  String soilCondition = getSoilStatus();
+  
+  Serial.print(F("🔍 Logic: Soil=")); Serial.print(soilCondition);
+  Serial.print(F(" Pump=")); Serial.print(pumpRunning ? F("ON") : F("OFF"));
+  Serial.print(F(" Pin=")); Serial.print(digitalRead(RELAY_PIN) ? F("HIGH") : F("LOW"));
+  
+  // PRIORITY 1: Force stop pump if soil is wet
+  if (pumpRunning && soilMoisture < wetThreshold) {
+    Serial.println(F(" → FORCE STOP (wet)"));
+    forcePumpOff();
+    
+  } else if (!pumpRunning && soilMoisture > dryThreshold) {
+    Serial.println(F(" → START (dry)"));
+    turnPumpOn();
+    
+  } else {
+    Serial.println(F(" → No change"));
+    if (!pumpRunning) {
+      forceRelayOff();
+    }
+  }
+}
+
+void turnPumpOn() {
+  Serial.println(F("🚿 PUMP ON - Testing both signals"));
+  Serial.println(F("   🔧 Testing LOW signal..."));
+  digitalWrite(RELAY_PIN, LOW);
+  delay(1000);
+  Serial.println(F("      ❓ Did pump start?"));
+  
+  Serial.println(F("   🔧 Testing HIGH signal..."));
+  digitalWrite(RELAY_PIN, HIGH);
+  delay(1000);
+  Serial.println(F("      ❓ Did pump start now?"));
+  
+  // Use configured signal
+  if (RELAY_ACTIVE_HIGH) {
+    digitalWrite(RELAY_PIN, HIGH);
+    Serial.println(F("   ✅ Using HIGH for ON"));
+  } else {
+    digitalWrite(RELAY_PIN, LOW);
+    Serial.println(F("   ✅ Using LOW for ON"));
+  }
+  
+  pumpRunning = true;
+  pumpStartTime = millis();
+  
+  showMessage(F("PUMP TEST"), F("Check water!"));
+}
+
+void forcePumpOff() {
+  Serial.println(F("💧 FORCE PUMP OFF - Testing both signals"));
+  
+  Serial.println(F("   🔧 Forcing HIGH signal..."));
+  digitalWrite(RELAY_PIN, HIGH);
+  delay(1000);
+  Serial.println(F("      ❓ Did pump stop?"));
+  
+  Serial.println(F("   🔧 Forcing LOW signal..."));
+  digitalWrite(RELAY_PIN, LOW);
+  delay(1000);
+  Serial.println(F("      ❓ Did pump stop now?"));
+
+  forceRelayOff();
+  pumpRunning = false;
+  
+  Serial.println(F("   ❓ IS PUMP ACTUALLY OFF NOW?"));
+  Serial.println(F("   ❓ If not, try changing RELAY_ACTIVE_HIGH"));
+  
+  showMessage(F("FORCE STOP"), F("Check pump!"));
+}
+
+void forceRelayOff() {
+
+  if (RELAY_ACTIVE_HIGH) {
+    digitalWrite(RELAY_PIN, LOW); 
+  } else {
+    digitalWrite(RELAY_PIN, HIGH);
+  }
+}
+
+void updateLCD() {
+  lcd.clear();
+  
+  lcd.setCursor(0, 0);
+  if (!dhtError) {
+    lcd.print(F("T:"));
+    lcd.print(temperature, 1);
+    lcd.print(F("C H:"));
+    lcd.print(humidity, 0);
+    lcd.print(F("%"));
+  } else {
+    lcd.print(F("DHT11 ERROR!"));
+  }
+  
+  lcd.setCursor(0, 1);
+  lcd.print(F("M:"));
+  lcd.print(soilMoisture);
+  lcd.print(F(" "));
+  lcd.print(getSoilStatus());
+  
+
+  if (pumpRunning) {
+    unsigned long elapsed = millis() - pumpStartTime;
+    unsigned long remaining = (pumpDuration - elapsed) / 1000;
+    lcd.setCursor(11, 1);
+    lcd.print(F("P:"));
+    if (remaining < 10) lcd.print(F("0"));
+    lcd.print(remaining);
+  } else {
+    lcd.setCursor(11, 1);
+    lcd.print(F("OFF"));
+  }
+}
+
+String getSoilStatus() {
+  if (soilMoisture > dryThreshold) {
+    return F("DRY");
+  } else if (soilMoisture > wetThreshold) {
+    return F("MOIST");
+  } else {
+    return F("WET");
+  }
+}
+
+void showMessage(String line1, String line2) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(line1);
+  lcd.setCursor(0, 1);
+  lcd.print(line2);
+  delay(1500);
+}
