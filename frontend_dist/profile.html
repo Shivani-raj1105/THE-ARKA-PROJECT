@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account Settings | Organic Botanist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme:{ extend:{
+      colors:{
+        "surface-tint":"#3b6934","secondary":"#4b6542","surface-container-low":"#f3f4f0",
+        "error-container":"#ffdad6","on-primary-fixed":"#002201","inverse-primary":"#a1d494",
+        "on-background":"#1a1c1a","tertiary-container":"#6d4820","on-tertiary":"#ffffff",
+        "on-tertiary-container":"#ecb987","primary-fixed-dim":"#a1d494","on-secondary-fixed-variant":"#344d2c",
+        "outline-variant":"#c2c9bb","background":"#f9faf6","on-error":"#ffffff","tertiary-fixed":"#ffdcbd",
+        "surface-variant":"#e2e3df","error":"#ba1a1a","on-surface":"#1a1c1a","secondary-fixed-dim":"#b1cfa4",
+        "surface-container-highest":"#e2e3df","on-primary-container":"#9dd090","inverse-on-surface":"#f0f1ed",
+        "tertiary-fixed-dim":"#f0bd8b","secondary-fixed":"#cdebbe","on-tertiary-fixed":"#2c1600",
+        "secondary-container":"#cae9bc","on-primary":"#ffffff","on-error-container":"#93000a",
+        "primary-container":"#2d5a27","surface-container":"#edeeea","on-secondary":"#ffffff",
+        "primary-fixed":"#bcf0ae","on-tertiary-fixed-variant":"#623f18","on-surface-variant":"#42493e",
+        "surface-dim":"#d9dad7","inverse-surface":"#2e312f","tertiary":"#52320b","on-secondary-fixed":"#092005",
+        "on-primary-fixed-variant":"#23501e","on-secondary-container":"#4f6a46","outline":"#72796e",
+        "surface-bright":"#f9faf6","surface-container-high":"#e7e9e5","surface":"#f9faf6",
+        "surface-container-lowest":"#ffffff","primary":"#154212"
+      },
+      borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},
+      spacing:{margin:"32px",md:"24px",base:"8px",sm:"12px",xs:"4px",lg:"48px",gutter:"24px",xl:"80px"},
+      fontFamily:{"headline-xl":["Newsreader"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Newsreader"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Newsreader"],"body-md":["Plus Jakarta Sans"]},
+      fontSize:{
+        "headline-xl":["48px",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"600"}],
+        "label-sm":["14px",{lineHeight:"1.2",letterSpacing:"0.05em",fontWeight:"600"}],
+        "headline-md":["24px",{lineHeight:"1.4",fontWeight:"500"}],
+        "body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],
+        "headline-lg":["32px",{lineHeight:"1.3",fontWeight:"500"}],
+        "body-md":["16px",{lineHeight:"1.6",fontWeight:"400"}]
+      }
+    }}
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  body { background-color: #f9faf6; color: #1a1c1a; }
+  .form-input-shadow { box-shadow: 0 4px 12px rgba(45,90,39,0.03); }
+</style>
+</head>
+<body class="font-body-md bg-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-green-50 shadow-[0_10px_30px_rgba(45,90,39,0.05)]">
+  <div class="flex justify-between items-center max-w-7xl mx-auto px-12 py-5">
+    <div class="flex items-center gap-8">
+      <a href="/identify" class="font-serif font-bold text-2xl text-green-900 italic">Organic Botanist</a>
+      <div class="hidden md:flex items-center gap-6 font-serif text-lg tracking-tight">
+        <a href="/identify" class="text-zinc-500 hover:text-green-600 transition-colors">Identify</a>
+        <a href="/history" class="text-zinc-500 hover:text-green-600 transition-colors">History</a>
+        <a href="/profile" class="text-green-700 border-b-2 border-green-700 pb-1 font-semibold">Profile</a>
+      </div>
+    </div>
+    <div id="nav-auth" class="flex items-center gap-4"></div>
+  </div>
+</nav>
+
+<main class="pt-32 pb-xl max-w-7xl mx-auto px-12">
+  <!-- Header -->
+  <header class="mb-lg">
+    <h1 class="font-headline-xl text-primary mb-2">Account Settings</h1>
+    <p class="text-body-lg text-on-surface-variant max-w-2xl">Manage your botanical identity and app preferences.</p>
+  </header>
+
+  <!-- Not logged in -->
+  <div id="not-logged-in" class="hidden text-center py-16">
+    <span class="material-symbols-outlined text-6xl text-outline mb-4 block">lock</span>
+    <h2 class="font-headline-lg text-primary mb-3">Sign in to manage your profile</h2>
+    <a href="/login" class="bg-primary text-white px-8 py-4 rounded-xl font-body-md inline-block hover:-translate-y-1 transition-all">Sign In</a>
+  </div>
+
+  <div id="profile-content" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <!-- Sidebar -->
+    <aside class="lg:col-span-3">
+      <div class="sticky top-32 space-y-base">
+        <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_10px_30px_rgba(45,90,39,0.05)] mb-md">
+          <div class="flex items-center gap-md">
+            <div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center border-2 border-secondary-container">
+              <span class="material-symbols-outlined text-3xl text-on-secondary-container">person</span>
+            </div>
+            <div>
+              <p id="sidebar-name" class="font-headline-md text-primary">Loading…</p>
+              <p id="sidebar-email" class="text-label-sm text-outline uppercase tracking-wider text-xs"></p>
+            </div>
+          </div>
+        </div>
+        <nav class="space-y-1">
+          <a href="#personal" class="flex items-center gap-sm px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-medium transition-all">
+            <span class="material-symbols-outlined">person</span>
+            <span>Personal Information</span>
+          </a>
+        </nav>
+        <div class="mt-xl pt-md border-t border-surface-variant">
+          <button id="logout-btn" class="flex items-center gap-sm px-4 py-3 text-error w-full hover:bg-error-container/20 rounded-lg transition-all">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Settings Content -->
+    <div class="lg:col-span-9 space-y-gutter">
+      <!-- Success banner -->
+      <div id="success-banner" class="hidden bg-secondary-container text-on-secondary-container rounded-xl px-md py-sm font-body-md text-sm">
+        Profile updated successfully.
+      </div>
+      <!-- Error banner -->
+      <div id="error-banner" class="hidden bg-error-container text-on-error-container rounded-xl px-md py-sm font-body-md text-sm"></div>
+
+      <!-- Personal Information -->
+      <section id="personal" class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-surface-variant/50">
+        <div class="flex items-center gap-sm mb-md">
+          <span class="material-symbols-outlined text-primary-container">id_card</span>
+          <h2 class="font-headline-lg text-primary">Personal Information</h2>
+        </div>
+        <form id="profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+          <div class="space-y-xs">
+            <label class="text-label-sm text-on-surface-variant px-1">First Name</label>
+            <input id="first-name" type="text"
+              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all form-input-shadow"/>
+          </div>
+          <div class="space-y-xs">
+            <label class="text-label-sm text-on-surface-variant px-1">Last Name</label>
+            <input id="last-name" type="text"
+              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all form-input-shadow"/>
+          </div>
+          <div class="space-y-xs md:col-span-2">
+            <label class="text-label-sm text-on-surface-variant px-1">Email Address</label>
+            <input id="email-field" type="email" disabled
+              class="w-full bg-surface-container border-none rounded-lg px-4 py-3 text-outline cursor-not-allowed form-input-shadow"/>
+          </div>
+          <div class="space-y-xs">
+            <label class="text-label-sm text-on-surface-variant px-1">Phone Number</label>
+            <input id="phone-field" type="tel"
+              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all form-input-shadow"/>
+          </div>
+          <div class="space-y-xs md:col-span-2">
+            <label class="text-label-sm text-on-surface-variant px-1">Botanical Bio</label>
+            <textarea id="bio-field" rows="3"
+              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-white transition-all form-input-shadow"></textarea>
+          </div>
+          <div class="md:col-span-2 flex justify-end">
+            <button id="save-btn" type="submit"
+              class="bg-primary text-white px-8 py-3 rounded-full font-semibold shadow-md hover:translate-y-[-2px] transition-all border border-primary-fixed/20">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { isLoggedIn, getUser, setUser, logout, fetchMe, updateProfile } from '/api.js';
+
+const notLoggedIn = document.getElementById('not-logged-in');
+const profileContent = document.getElementById('profile-content');
+const navAuth = document.getElementById('nav-auth');
+
+document.getElementById('logout-btn').addEventListener('click', logout);
+
+navAuth.innerHTML = isLoggedIn()
+  ? `<button onclick="import('/api.js').then(m=>m.logout())" class="text-sm text-error hover:underline font-label-sm">Sign Out</button>`
+  : `<a href="/login" class="text-sm font-label-sm text-primary hover:underline">Sign In</a>`;
+
+if (!isLoggedIn()) {
+  notLoggedIn.classList.remove('hidden');
+} else {
+  profileContent.classList.remove('hidden');
+
+  // Load profile data
+  try {
+    const user = await fetchMe();
+    setUser(user);
+    populateForm(user);
+  } catch {
+    const cached = getUser();
+    if (cached) populateForm(cached);
+  }
+
+  function populateForm(user) {
+    const nameParts = (user.full_name || '').split(' ');
+    document.getElementById('first-name').value = nameParts[0] || '';
+    document.getElementById('last-name').value = nameParts.slice(1).join(' ') || '';
+    document.getElementById('email-field').value = user.email || '';
+    document.getElementById('phone-field').value = user.phone || '';
+    document.getElementById('bio-field').value = user.bio || '';
+    document.getElementById('sidebar-name').textContent = user.full_name || 'Botanist';
+    document.getElementById('sidebar-email').textContent = user.email || '';
+  }
+
+  // Save profile
+  const form = document.getElementById('profile-form');
+  const saveBtn = document.getElementById('save-btn');
+  const successBanner = document.getElementById('success-banner');
+  const errorBanner = document.getElementById('error-banner');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    successBanner.classList.add('hidden');
+    errorBanner.classList.add('hidden');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+
+    const firstName = document.getElementById('first-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
+    const full_name = [firstName, lastName].filter(Boolean).join(' ');
+    const phone = document.getElementById('phone-field').value.trim() || null;
+    const bio = document.getElementById('bio-field').value.trim() || null;
+
+    try {
+      const updated = await updateProfile({ full_name, phone, bio });
+      setUser({ ...updated });
+      document.getElementById('sidebar-name').textContent = updated.full_name;
+      successBanner.classList.remove('hidden');
+      setTimeout(() => successBanner.classList.add('hidden'), 3000);
+    } catch (err) {
+      errorBanner.textContent = err.message;
+      errorBanner.classList.remove('hidden');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Changes';
+    }
+  });
+}
+</script>
+</body>
+</html>

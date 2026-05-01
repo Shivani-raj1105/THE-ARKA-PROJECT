@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In | Organic Botanist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;0,600;1,500;1,700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme:{ extend:{
+      colors:{
+        "surface-tint":"#3b6934","secondary":"#4b6542","surface-container-low":"#f3f4f0",
+        "error-container":"#ffdad6","on-primary-fixed":"#002201","inverse-primary":"#a1d494",
+        "on-background":"#1a1c1a","tertiary-container":"#6d4820","on-tertiary":"#ffffff",
+        "on-tertiary-container":"#ecb987","primary-fixed-dim":"#a1d494","on-secondary-fixed-variant":"#344d2c",
+        "outline-variant":"#c2c9bb","background":"#f9faf6","on-error":"#ffffff","tertiary-fixed":"#ffdcbd",
+        "surface-variant":"#e2e3df","error":"#ba1a1a","on-surface":"#1a1c1a","secondary-fixed-dim":"#b1cfa4",
+        "surface-container-highest":"#e2e3df","on-primary-container":"#9dd090","inverse-on-surface":"#f0f1ed",
+        "tertiary-fixed-dim":"#f0bd8b","secondary-fixed":"#cdebbe","on-tertiary-fixed":"#2c1600",
+        "secondary-container":"#cae9bc","on-primary":"#ffffff","on-error-container":"#93000a",
+        "primary-container":"#2d5a27","surface-container":"#edeeea","on-secondary":"#ffffff",
+        "primary-fixed":"#bcf0ae","on-tertiary-fixed-variant":"#623f18","on-surface-variant":"#42493e",
+        "surface-dim":"#d9dad7","inverse-surface":"#2e312f","tertiary":"#52320b","on-secondary-fixed":"#092005",
+        "on-primary-fixed-variant":"#23501e","on-secondary-container":"#4f6a46","outline":"#72796e",
+        "surface-bright":"#f9faf6","surface-container-high":"#e7e9e5","surface":"#f9faf6",
+        "surface-container-lowest":"#ffffff","primary":"#154212"
+      },
+      borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},
+      spacing:{margin:"32px",md:"24px",base:"8px",sm:"12px",xs:"4px",lg:"48px",gutter:"24px",xl:"80px"},
+      fontFamily:{"headline-xl":["Newsreader"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Newsreader"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Newsreader"],"body-md":["Plus Jakarta Sans"]},
+      fontSize:{
+        "headline-xl":["48px",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"600"}],
+        "label-sm":["14px",{lineHeight:"1.2",letterSpacing:"0.05em",fontWeight:"600"}],
+        "headline-md":["24px",{lineHeight:"1.4",fontWeight:"500"}],
+        "body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],
+        "headline-lg":["32px",{lineHeight:"1.3",fontWeight:"500"}],
+        "body-md":["16px",{lineHeight:"1.6",fontWeight:"400"}]
+      }
+    }}
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .organic-gradient { background: linear-gradient(135deg, rgba(45,90,39,0.03) 0%, rgba(205,235,190,0.05) 100%); }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex items-center justify-center">
+<main class="w-full min-h-screen flex flex-col md:flex-row overflow-hidden">
+
+  <!-- Left: Branding -->
+  <section class="hidden md:flex md:w-1/2 lg:w-3/5 bg-primary relative items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover opacity-60 mix-blend-luminosity"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5_0oC4RLSNcVZQpxDcNsZTx5rs4W3lL380735poZ1GLQAeIthRSXAm7_erPX1xvvBPHOnblrFjcZf2r7tA-1wR63S7aPpqyjnBYanX73WRQS0eZUewe5ofnKfPMxadvM4xu-5pvj6zmsyUh6YVuv3jJ1IIlVHieYUxfjzgD2_TCdgJaFv3kCeB3nHgFK_8KxnuBe2Q8oY7WjfgYT4FiDhRzYaU46NR6-7LPDlVcpP-9sewgo1J2RldqgaME7Yj3rQmzclGy-x0Y4"/>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent z-10"></div>
+    <div class="relative z-20 px-xl max-w-2xl text-center md:text-left">
+      <span class="inline-block px-sm py-xs bg-secondary-container text-on-secondary-container font-label-sm rounded-full mb-md">Welcome Back</span>
+      <h1 class="font-headline-xl text-white mb-md italic">Nurturing scientific curiosity.</h1>
+      <p class="font-body-lg text-white/80 max-w-lg">Join our community of botanists and plant lovers. Identify species, track growth, and cultivate your digital garden.</p>
+    </div>
+    <div class="absolute bottom-md left-md z-20">
+      <span class="font-headline-md text-white/50 italic opacity-40">Organic Botanist</span>
+    </div>
+  </section>
+
+  <!-- Right: Form -->
+  <section class="w-full md:w-1/2 lg:w-2/5 bg-surface flex flex-col items-center justify-center px-md py-xl md:px-xl organic-gradient">
+    <div class="w-full max-w-md">
+      <div class="md:hidden flex items-center gap-sm mb-lg">
+        <div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings:'FILL' 1">eco</span>
+        </div>
+        <span class="font-headline-md text-primary italic">Organic Botanist</span>
+      </div>
+
+      <div class="mb-lg">
+        <h2 class="font-headline-lg text-on-surface mb-xs">Sign in to your account</h2>
+        <p class="font-body-md text-on-surface-variant">Manage your plant collection and discover new species.</p>
+      </div>
+
+      <!-- Error banner -->
+      <div id="error-banner" class="hidden mb-md bg-error-container text-on-error-container rounded-xl px-md py-sm font-body-md text-sm"></div>
+
+      <form id="login-form" class="space-y-md">
+        <div>
+          <label class="block font-label-sm text-on-surface-variant mb-xs ml-1">Email Address</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings:'opsz' 20">mail</span>
+            <input id="email" type="email" placeholder="name@botanist.com" required
+              class="w-full pl-12 pr-md py-3.5 bg-surface-container-low border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-on-surface placeholder:text-outline/60"/>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-xs ml-1">
+            <label class="block font-label-sm text-on-surface-variant">Password</label>
+          </div>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings:'opsz' 20">lock</span>
+            <input id="password" type="password" placeholder="••••••••" required
+              class="w-full pl-12 pr-md py-3.5 bg-surface-container-low border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-on-surface placeholder:text-outline/60"/>
+          </div>
+        </div>
+        <button id="submit-btn" type="submit"
+          class="w-full bg-primary text-white py-4 rounded-xl font-headline-md hover:bg-primary-container hover:text-on-primary-container shadow-lg shadow-primary/10 active:scale-95 transition-all duration-300 border border-primary/20">
+          Sign In
+        </button>
+      </form>
+
+      <div class="mt-xl text-center">
+        <p class="font-body-md text-on-surface-variant">
+          Don't have an account?
+          <a href="/signup" class="text-primary font-semibold hover:underline underline-offset-4 ml-1">Create an account</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { login, isLoggedIn } from '/api.js';
+
+// Do not auto-redirect — always show login page at root
+
+const form = document.getElementById('login-form');
+const btn = document.getElementById('submit-btn');
+const errorBanner = document.getElementById('error-banner');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errorBanner.classList.add('hidden');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  try {
+    await login(email, password);
+    window.location.href = '/identify';
+  } catch (err) {
+    errorBanner.textContent = err.message;
+    errorBanner.classList.remove('hidden');
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
+});
+</script>
+</body>
+</html>

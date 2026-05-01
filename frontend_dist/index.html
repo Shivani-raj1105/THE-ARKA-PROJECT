@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organic Botanist - Identify &amp; Nurture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "surface-tint":"#3b6934","secondary":"#4b6542","surface-container-low":"#f3f4f0",
+        "error-container":"#ffdad6","on-primary-fixed":"#002201","inverse-primary":"#a1d494",
+        "on-background":"#1a1c1a","tertiary-container":"#6d4820","on-tertiary":"#ffffff",
+        "on-tertiary-container":"#ecb987","primary-fixed-dim":"#a1d494","on-secondary-fixed-variant":"#344d2c",
+        "outline-variant":"#c2c9bb","background":"#f9faf6","on-error":"#ffffff","tertiary-fixed":"#ffdcbd",
+        "surface-variant":"#e2e3df","error":"#ba1a1a","on-surface":"#1a1c1a","secondary-fixed-dim":"#b1cfa4",
+        "surface-container-highest":"#e2e3df","on-primary-container":"#9dd090","inverse-on-surface":"#f0f1ed",
+        "tertiary-fixed-dim":"#f0bd8b","secondary-fixed":"#cdebbe","on-tertiary-fixed":"#2c1600",
+        "secondary-container":"#cae9bc","on-primary":"#ffffff","on-error-container":"#93000a",
+        "primary-container":"#2d5a27","surface-container":"#edeeea","on-secondary":"#ffffff",
+        "primary-fixed":"#bcf0ae","on-tertiary-fixed-variant":"#623f18","on-surface-variant":"#42493e",
+        "surface-dim":"#d9dad7","inverse-surface":"#2e312f","tertiary":"#52320b","on-secondary-fixed":"#092005",
+        "on-primary-fixed-variant":"#23501e","on-secondary-container":"#4f6a46","outline":"#72796e",
+        "surface-bright":"#f9faf6","surface-container-high":"#e7e9e5","surface":"#f9faf6",
+        "surface-container-lowest":"#ffffff","primary":"#154212"
+      },
+      borderRadius: { DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px" },
+      spacing: { margin:"32px",md:"24px",base:"8px",sm:"12px",xs:"4px",lg:"48px",gutter:"24px",xl:"80px" },
+      fontFamily: { "headline-xl":["Newsreader"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Newsreader"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Newsreader"],"body-md":["Plus Jakarta Sans"] },
+      fontSize: {
+        "headline-xl":["48px",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"600"}],
+        "label-sm":["14px",{lineHeight:"1.2",letterSpacing:"0.05em",fontWeight:"600"}],
+        "headline-md":["24px",{lineHeight:"1.4",fontWeight:"500"}],
+        "body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],
+        "headline-lg":["32px",{lineHeight:"1.3",fontWeight:"500"}],
+        "body-md":["16px",{lineHeight:"1.6",fontWeight:"400"}]
+      }
+    }}
+  }
+</script>
+<style>
+  body { background-color: #f9faf6; color: #1a1c1a; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .organic-shadow { box-shadow: 0 10px 30px rgba(45,90,39,0.05); }
+  #drop-zone.drag-over { border-color: #154212; background-color: #f0f7ee; }
+</style>
+</head>
+<body class="font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-green-50 shadow-[0_10px_30px_rgba(45,90,39,0.05)]">
+  <div class="flex justify-between items-center max-w-7xl mx-auto px-12 py-5">
+    <div class="flex items-center gap-8">
+      <a href="/identify" class="text-2xl font-bold text-green-900 italic font-serif">Organic Botanist</a>
+      <div class="hidden md:flex gap-8 items-center">
+        <a href="/identify" class="text-green-700 border-b-2 border-green-700 pb-1 font-semibold font-serif text-lg tracking-tight">Identify</a>
+        <a href="/history" class="text-zinc-500 hover:text-green-600 transition-colors font-serif text-lg tracking-tight">History</a>
+        <a href="/profile" class="text-zinc-500 hover:text-green-600 transition-colors font-serif text-lg tracking-tight">Profile</a>
+      </div>
+    </div>
+    <div id="nav-auth" class="flex items-center gap-4"></div>
+  </div>
+</nav>
+
+<main class="pt-24 overflow-x-hidden">
+  <!-- Hero -->
+  <section class="relative px-12 py-xl max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="z-10">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm mb-6">BOTANICAL INTELLIGENCE</span>
+        <h1 class="font-headline-xl text-primary mb-6 leading-[1.1]">The Earth laughs in flowers, let's learn their names.</h1>
+        <p class="font-body-lg text-on-surface-variant mb-10 max-w-lg">Unlock the secrets of your garden with scientific precision. Our AI identifies plant species instantly, helping you nurture every leaf and petal.</p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button id="upload-btn" class="bg-primary text-on-primary px-8 py-4 rounded-xl font-body-md flex items-center justify-center gap-3 organic-shadow hover:-translate-y-1 transition-all border border-primary/10">
+            <span class="material-symbols-outlined">photo_camera</span>
+            Upload an Image
+          </button>
+          <input id="file-input" type="file" accept="image/*" class="hidden"/>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="aspect-[4/5] rounded-[48px] overflow-hidden organic-shadow relative group">
+          <img alt="Featured Plant" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIzJtns9H10EBEdfMIwkQ8yCJXcq4usrm15clwnOvi03Pnhq0Lbaug6832o_aUT1wh6PVuZhO0VT_5SSLOiXU7f2yGbvjiHp-Pecb5pFf3sOMuGktnkb3c3ABBVD53kl1J3NikakEWgquqBZAVvY_6-1k1MfNpEWntr7dcJzia6fTAc8DdVsDsxGxJkTIkb9Qwrw6MeMoLeNWapVuEex_Ej8f2mZzDaFFXnRR9gAXftxWX45bFmjfpiq6hUc5hqgUNBzwEMwJ4RXI"/>
+          <div class="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur px-6 py-6 rounded-3xl organic-shadow">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-headline-md text-primary">Monstera Deliciosa</h3>
+                <p class="text-on-surface-variant font-label-sm italic">Swiss Cheese Plant</p>
+              </div>
+              <span class="material-symbols-outlined text-primary bg-primary-fixed p-3 rounded-full">check_circle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detection Panel -->
+  <section id="detect-section" class="hidden px-12 py-xl max-w-7xl mx-auto">
+    <div class="bg-surface-container-lowest rounded-[32px] p-lg organic-shadow border border-surface-variant/50">
+      <h2 class="font-headline-lg text-primary mb-md">Identify Your Plant</h2>
+
+      <!-- Drop zone -->
+      <div id="drop-zone" class="border-2 border-dashed border-outline-variant rounded-xl p-12 text-center cursor-pointer hover:border-primary transition-colors mb-md">
+        <span class="material-symbols-outlined text-5xl text-outline mb-4 block">upload_file</span>
+        <p class="font-body-lg text-on-surface-variant mb-2">Drag &amp; drop an image here</p>
+        <p class="text-label-sm text-outline">or click to browse — JPG, PNG, WEBP</p>
+      </div>
+
+      <!-- Preview -->
+      <div id="preview-wrap" class="hidden mb-md">
+        <img id="preview-img" class="max-h-64 rounded-xl mx-auto organic-shadow" alt="Preview"/>
+      </div>
+
+      <!-- Analyse button -->
+      <button id="analyse-btn" class="hidden w-full bg-primary text-white py-4 rounded-xl font-headline-md hover:bg-primary-container hover:text-on-primary-container transition-all">
+        Analyse Plant
+      </button>
+
+      <!-- Status -->
+      <div id="status-wrap" class="hidden mt-md text-center">
+        <div id="spinner" class="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-3"></div>
+        <p id="status-text" class="text-on-surface-variant font-body-md">Analysing…</p>
+      </div>
+
+      <!-- Results -->
+      <div id="results-wrap" class="hidden mt-md"></div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="bg-surface-container-low py-xl px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="font-headline-lg text-primary mb-4">Scientific identification in seconds</h2>
+        <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">Our neural network analyses leaf venation, stem structure, and floral patterns to give you expert results.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+          <div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container mb-8">
+            <span class="material-symbols-outlined text-4xl">add_a_photo</span>
+          </div>
+          <h3 class="font-headline-md text-primary mb-4">1. Capture</h3>
+          <p class="text-on-surface-variant leading-relaxed">Snap a clear photo of the plant's leaf or flower using your phone camera or upload an existing image.</p>
+        </div>
+        <div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+          <div class="w-16 h-16 rounded-2xl bg-primary-container flex items-center justify-center text-on-primary-container mb-8">
+            <span class="material-symbols-outlined text-4xl">neurology</span>
+          </div>
+          <h3 class="font-headline-md text-primary mb-4">2. Analyse</h3>
+          <p class="text-on-surface-variant leading-relaxed">Our AI cross-references your image with botanical specimens in our database.</p>
+        </div>
+        <div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+          <div class="w-16 h-16 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed mb-8">
+            <span class="material-symbols-outlined text-4xl">local_florist</span>
+          </div>
+          <h3 class="font-headline-md text-primary mb-4">3. Nurture</h3>
+          <p class="text-on-surface-variant leading-relaxed">Get an instant ID plus confidence scores saved to your personal history.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="w-full rounded-t-[32px] bg-zinc-50 border-t border-green-100/50">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto px-12 py-16 font-serif text-sm leading-relaxed">
+    <div>
+      <span class="font-serif font-bold text-xl text-green-800 mb-6 block">Organic Botanist</span>
+      <p class="text-zinc-600 max-w-xs">Nurturing scientific curiosity through the intersection of digital precision and natural wonder.</p>
+    </div>
+    <div class="flex flex-col gap-6">
+      <h4 class="font-bold text-green-900">Contact</h4>
+      <a class="text-green-700 font-bold hover:text-green-600" href="mailto:hello@organicbotanist.com">hello@organicbotanist.com</a>
+      <div class="pt-6 border-t border-green-100/50">
+        <p class="text-zinc-500">© 2024 Organic Botanist. Nurturing scientific curiosity.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+import { isLoggedIn, getUser, logout, detect, pollResult } from '/api.js';
+
+// Nav auth buttons
+const navAuth = document.getElementById('nav-auth');
+if (!isLoggedIn()) {
+  window.location.href = '/login';
+}
+if (isLoggedIn()) {
+  const user = getUser();
+  navAuth.innerHTML = `
+    <span class="text-sm text-on-surface-variant font-body-md hidden md:block">Hi, ${user?.full_name?.split(' ')[0] || 'Botanist'}</span>
+    <button onclick="import('/api.js').then(m=>m.logout())" class="text-sm text-error hover:underline font-label-sm">Sign Out</button>
+  `;
+} else {
+  navAuth.innerHTML = `
+    <a href="/login" class="text-sm font-label-sm text-primary hover:underline">Sign In</a>
+    <a href="/signup" class="bg-primary text-white px-5 py-2 rounded-full text-sm font-label-sm hover:bg-primary-container hover:text-on-primary-container transition-all">Get Started</a>
+  `;
+}
+
+// Upload flow
+const uploadBtn = document.getElementById('upload-btn');
+const fileInput = document.getElementById('file-input');
+const detectSection = document.getElementById('detect-section');
+const dropZone = document.getElementById('drop-zone');
+const previewWrap = document.getElementById('preview-wrap');
+const previewImg = document.getElementById('preview-img');
+const analyseBtn = document.getElementById('analyse-btn');
+const statusWrap = document.getElementById('status-wrap');
+const statusText = document.getElementById('status-text');
+const resultsWrap = document.getElementById('results-wrap');
+
+let selectedFile = null;
+
+uploadBtn.addEventListener('click', () => {
+  detectSection.classList.remove('hidden');
+  detectSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+dropZone.addEventListener('click', () => fileInput.click());
+
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  selectedFile = file;
+  const url = URL.createObjectURL(file);
+  previewImg.src = url;
+  previewWrap.classList.remove('hidden');
+  analyseBtn.classList.remove('hidden');
+  resultsWrap.classList.add('hidden');
+  resultsWrap.innerHTML = '';
+}
+
+analyseBtn.addEventListener('click', async () => {
+  if (!selectedFile) return;
+  analyseBtn.classList.add('hidden');
+  statusWrap.classList.remove('hidden');
+  resultsWrap.classList.add('hidden');
+  resultsWrap.innerHTML = '';
+
+  try {
+    statusText.textContent = 'Uploading image…';
+    const { task_id } = await detect(selectedFile);
+    statusText.textContent = 'Analysing plant…';
+    const result = await pollResult(task_id);
+    statusWrap.classList.add('hidden');
+    showResults(result.result);
+  } catch (err) {
+    statusWrap.classList.add('hidden');
+    analyseBtn.classList.remove('hidden');
+    showError(err.message);
+  }
+});
+
+function showResults(result) {
+  resultsWrap.classList.remove('hidden');
+  if (!result) { resultsWrap.innerHTML = '<p class="text-error text-center">No result returned.</p>'; return; }
+
+  if (result.status === 'No plant is detected') {
+    resultsWrap.innerHTML = `
+      <div class="text-center py-8">
+        <span class="material-symbols-outlined text-5xl text-outline mb-3 block">search_off</span>
+        <p class="font-headline-md text-on-surface-variant">No plant detected in this image.</p>
+        <p class="text-body-md text-outline mt-2">Try a clearer photo with the plant as the main subject.</p>
+      </div>`;
+    return;
+  }
+
+  const detections = result.detections || [];
+  const cards = detections.map(d => `
+    <div class="flex items-center justify-between bg-surface-container-low rounded-xl px-6 py-4">
+      <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-primary text-3xl">local_florist</span>
+        <div>
+          <p class="font-headline-md text-primary capitalize">${d.class.replace(/_/g,' ')}</p>
+          <p class="text-label-sm text-outline uppercase tracking-wider">Detected species</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="font-headline-md text-primary">${Math.round(d.confidence * 100)}%</p>
+        <p class="text-label-sm text-outline">Confidence</p>
+      </div>
+    </div>`).join('');
+
+  resultsWrap.innerHTML = `
+    <div class="space-y-3">
+      <h3 class="font-headline-md text-primary mb-4">Detection Results</h3>
+      ${cards}
+      ${isLoggedIn() ? '<p class="text-label-sm text-outline text-center mt-4">Saved to your <a href="/history" class="text-primary hover:underline">history</a>.</p>' : '<p class="text-label-sm text-outline text-center mt-4"><a href="/login" class="text-primary hover:underline">Sign in</a> to save results to your history.</p>'}
+    </div>`;
+}
+
+function showError(msg) {
+  resultsWrap.classList.remove('hidden');
+  resultsWrap.innerHTML = `<p class="text-error text-center font-body-md">${msg}</p>`;
+}
+</script>
+</body>
+</html>

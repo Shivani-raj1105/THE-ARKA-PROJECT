@@ -1,17 +1,22 @@
-
 services:
   api:
     build: .
     container_name: plant_api
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     volumes:
       - .:/app
       - shared_data:/shared
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@plant_db:5432/plants
+      - REDIS_URL=redis://plant_redis:6379/0
+      - SECRET_KEY=change-me-in-production-use-a-long-random-string
     depends_on:
-      - redis
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   worker:
     build: .
@@ -20,13 +25,18 @@ services:
     volumes:
       - .:/app
       - shared_data:/shared
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@plant_db:5432/plants
+      - REDIS_URL=redis://plant_redis:6379/0
     depends_on:
-      - redis
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   redis:
     image: redis:7
-    container_name: plant_redis 
+    container_name: plant_redis
     ports:
       - "6379:6379"
 
@@ -39,6 +49,15 @@ services:
       POSTGRES_DB: plants
     ports:
       - "5432:5432"
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   shared_data:
+  pg_data:

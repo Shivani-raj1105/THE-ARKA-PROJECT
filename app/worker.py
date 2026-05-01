@@ -1,55 +1,54 @@
+import json
+import os
 from celery import Celery
 from app.detection import PlantDetector
-import psycopg2
+from app.database import get_db_connection, get_cursor
 
-# ----------------------------
-# Redis for Celery
-# ----------------------------
-REDIS_URL = "redis://plant_redis:6379/0"
+REDIS_URL = os.getenv("REDIS_URL", "redis://plant_redis:6379/0")
 
 celery_app = Celery(
     "worker",
     broker=REDIS_URL,
-    backend=REDIS_URL
+    backend=REDIS_URL,
 )
 
-# ----------------------------
-# PostgreSQL inside Docker
-# ----------------------------
-DATABASE_URL = "postgresql://postgres:postgres@plant_db:5432/plants"
-def get_db_connection():
-    return psycopg2.connect(DATABASE_URL)
-
-# ----------------------------
-# Plant Detector
-# ----------------------------
 detector = PlantDetector("/app/best.pt")
 
-# ----------------------------
-# Celery task
-# ----------------------------
+
 @celery_app.task(name="detect_plant_task", bind=True)
-def detect_plant_task(self, file_path):
+def detect_plant_task(self, file_path: str, user_id: int = None):
     task_id = self.request.id
-
     conn = get_db_connection()
+    try:
+        with get_cursor(conn) as cur:
+            cur.execute(
+                """
+                INSERT INTO plant_tasks (task_id, user_id, status, input_file_path)
+                VALUES (%s, %s, %s, %s)
+                ON CONFLICT (task_id) DO UPDATE
+                    SET status = EXCLUDED.status
+                """,
+                (task_id, user_id, "STARTED", file_path),
+            )
+            conn.commit()
 
-    with conn.cursor() as cur:
-        cur.execute(
-            "INSERT INTO plant_tasks (task_id, status, input_file_path) VALUES (%s, %s, %s)",
-            (task_id, "STARTED", file_path)
-        )
-        conn.commit()
+        result = detector.detect(file_path)
 
-    result = detector.detect(file_path)
-
-    with conn.cursor() as cur:
-        cur.execute(
-            "UPDATE plant_tasks SET status=%s, result_file_path=%s WHERE task_id=%s",
-            ("SUCCESS", str(result), task_id)
-        )
-        conn.commit()
-
-    conn.close()
+        with get_cursor(conn) as cur:
+            cur.execute(
+                "UPDATE plant_tasks SET status=%s, result=%s WHERE task_id=%s",
+                ("SUCCESS", json.dumps(result), task_id),
+            )
+            conn.commit()
+    except Exception as exc:
+        with get_cursor(conn) as cur:
+            cur.execute(
+                "UPDATE plant_tasks SET status=%s, result=%s WHERE task_id=%s",
+                ("FAILURE", json.dumps({"error": str(exc)}), task_id),
+            )
+            conn.commit()
+        raise
+    finally:
+        conn.close()
 
     return result

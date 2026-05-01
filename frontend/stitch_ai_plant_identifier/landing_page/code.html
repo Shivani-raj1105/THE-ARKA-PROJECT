@@ -1,0 +1,295 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Organic Botanist - Identify &amp; Nurture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#3b6934",
+                    "secondary": "#4b6542",
+                    "surface-container-low": "#f3f4f0",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#002201",
+                    "inverse-primary": "#a1d494",
+                    "on-background": "#1a1c1a",
+                    "tertiary-container": "#6d4820",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#ecb987",
+                    "primary-fixed-dim": "#a1d494",
+                    "on-secondary-fixed-variant": "#344d2c",
+                    "outline-variant": "#c2c9bb",
+                    "background": "#f9faf6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#ffdcbd",
+                    "surface-variant": "#e2e3df",
+                    "error": "#ba1a1a",
+                    "on-surface": "#1a1c1a",
+                    "secondary-fixed-dim": "#b1cfa4",
+                    "surface-container-highest": "#e2e3df",
+                    "on-primary-container": "#9dd090",
+                    "inverse-on-surface": "#f0f1ed",
+                    "tertiary-fixed-dim": "#f0bd8b",
+                    "secondary-fixed": "#cdebbe",
+                    "on-tertiary-fixed": "#2c1600",
+                    "secondary-container": "#cae9bc",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#2d5a27",
+                    "surface-container": "#edeeea",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#bcf0ae",
+                    "on-tertiary-fixed-variant": "#623f18",
+                    "on-surface-variant": "#42493e",
+                    "surface-dim": "#d9dad7",
+                    "inverse-surface": "#2e312f",
+                    "tertiary": "#52320b",
+                    "on-secondary-fixed": "#092005",
+                    "on-primary-fixed-variant": "#23501e",
+                    "on-secondary-container": "#4f6a46",
+                    "outline": "#72796e",
+                    "surface-bright": "#f9faf6",
+                    "surface-container-high": "#e7e9e5",
+                    "surface": "#f9faf6",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#154212"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "32px",
+                    "md": "24px",
+                    "base": "8px",
+                    "sm": "12px",
+                    "xs": "4px",
+                    "lg": "48px",
+                    "gutter": "24px",
+                    "xl": "80px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Newsreader"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Newsreader"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Newsreader"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f9faf6; color: #1a1c1a; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .organic-shadow { box-shadow: 0 10px 30px rgba(45, 90, 39, 0.05); }
+        .glass-effect { backdrop-filter: blur(12px); background-color: rgba(255, 255, 255, 0.8); }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-green-50 dark:border-zinc-800 shadow-[0_10px_30px_rgba(45,90,39,0.05)]">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-12 py-5">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold text-green-900 dark:text-green-100 italic font-serif" style="">Organic Botanist</span>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-green-700 dark:text-green-300 border-b-2 border-green-700 pb-1 font-semibold font-serif text-lg tracking-tight" href="#" style="">Identify</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors font-serif text-lg tracking-tight" href="#" style="">History</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors font-serif text-lg tracking-tight" href="#" style=""><br></a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors font-serif text-lg tracking-tight" href="#" style="">Profile</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+</div>
+</div>
+</nav>
+<main class="pt-24 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="relative px-12 py-xl max-w-7xl mx-auto">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="z-10">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm mb-6" style="">BOTANICAL INTELLIGENCE</span>
+<h1 class="font-headline-xl text-primary mb-6 leading-[1.1]" style="">The Earth laughs in flowers, let's learn their names.</h1>
+<p class="font-body-lg text-on-surface-variant mb-10 max-w-lg" style="">Unlock the secrets of your garden with scientific precision. Our AI identifies over 10,000 species instantly, helping you nurture every leaf and petal.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-body-md flex items-center justify-center gap-3 organic-shadow hover:-translate-y-1 transition-all border border-primary/10" style="">
+<span class="material-symbols-outlined" data-icon="photo_camera" style="">photo_camera</span>
+                            Upload an Image
+                        </button>
+<button class="border border-primary text-primary px-8 py-4 rounded-xl font-body-md hover:bg-primary-fixed transition-colors" style="">
+                            Explore Catalog
+                        </button>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-[4/5] rounded-[48px] overflow-hidden organic-shadow relative group">
+<img alt="Featured Plant" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="Close-up of a vibrant green Monstera Deliciosa leaf with elegant fenestrations and soft morning shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIzJtns9H10EBEdfMIwkQ8yCJXcq4usrm15clwnOvi03Pnhq0Lbaug6832o_aUT1wh6PVuZhO0VT_5SSLOiXU7f2yGbvjiHp-Pecb5pFf3sOMuGktnkb3c3ABBVD53kl1J3NikakEWgquqBZAVvY_6-1k1MfNpEWntr7dcJzia6fTAc8DdVsDsxGxJkTIkb9Qwrw6MeMoLeNWapVuEex_Ej8f2mZzDaFFXnRR9gAXftxWX45bFmjfpiq6hUc5hqgUNBzwEMwJ4RXI" style="">
+<div class="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur px-6 py-6 rounded-3xl organic-shadow">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-primary" style="">Monstera Deliciosa</h3>
+<p class="text-on-surface-variant font-label-sm italic" style="">Swiss Cheese Plant</p>
+</div>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-3 rounded-full" data-icon="check_circle" style="">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Decorative element -->
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-secondary-container/20 rounded-full blur-3xl -z-10"></div>
+<div class="absolute -bottom-12 -left-12 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl -z-10"></div>
+</div>
+</div>
+</section>
+<!-- How it Works Section -->
+<section class="bg-surface-container-low py-xl px-12">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-primary mb-4" style="">Scientific identification in seconds</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto" style="">Our multi-layered neural network analyzes leaf venation, stem structure, and floral patterns to give you expert results.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container mb-8">
+<span class="material-symbols-outlined text-4xl" data-icon="add_a_photo" style="">add_a_photo</span>
+</div>
+<h3 class="font-headline-md text-primary mb-4" style="">1. Capture</h3>
+<p class="text-on-surface-variant leading-relaxed" style="">Snap a clear photo of the plant's leaf or flower using your phone camera or upload an existing image.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-primary-container flex items-center justify-center text-on-primary-container mb-8">
+<span class="material-symbols-outlined text-4xl" data-icon="neurology" style="">neurology</span>
+</div>
+<h3 class="font-headline-md text-primary mb-4" style="">2. Analyze</h3>
+<p class="text-on-surface-variant leading-relaxed" style="">Our AI cross-references your image with millions of botanical specimens in our global herbarium database.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest p-10 rounded-[32px] organic-shadow hover:-translate-y-2 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed mb-8">
+<span class="material-symbols-outlined text-4xl" data-icon="local_florist" style="">local_florist</span>
+</div>
+<h3 class="font-headline-md text-primary mb-4" style="">3. Nurture</h3>
+<p class="text-on-surface-variant leading-relaxed" style="">Get an instant ID plus detailed care guides, toxicity warnings, and growth tracking reminders.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Plants Gallery -->
+<section class="py-xl px-12 max-w-7xl mx-auto">
+<div class="flex items-end justify-between mb-16">
+<div class="max-w-xl">
+<h2 class="font-headline-lg text-primary mb-4" style="">Featured in the Conservatory</h2>
+<p class="font-body-md text-on-surface-variant" style="">Explore the most identified and beloved plants of the month from our community of botanists.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-4 relative">
+<img alt="Plant 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A small succulent plant with thick fleshy leaves in a minimalist ceramic pot on a clean white surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPUQIT1q1gMKu512Dt1GnxLdsb2OhJxw9SiYxC1PBuKhkBDCWeh7Ar0M7NvVOrXdcH4NNGkOtjb1cbtsGQ4EQU4gPaJrfWKa-Me2iHzHoMirKwvZEOSml7nIcV6RbfNtl2mcFV2ea0iKHE4z_WThANAZFdEEfLAZx6pMqvuiY8cfnztZkJZv4s_P4iPCIUMRlSJ6jzU_i6zXiiF1Llz5PfOUGbwLRVduA80OzKpqmhbpe0M19cwN3PUCXadKwBKoEyZdX33KIJTiE" style="">
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[12px] font-bold text-primary" style="">SUCCULENT</div>
+</div>
+<h4 class="font-headline-md text-primary group-hover:text-secondary transition-colors" style="">Echeveria Elegans</h4>
+<p class="text-outline text-sm" style="">Low maintenance • Indirect light</p>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-4 relative">
+<img alt="Plant 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Lush green Fern leaves unfurling with soft backlighting against a dark shaded background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPdy_V61tZLmZ1p6uiPxrNRbHxRlEiUmfdK9Dq-hkwRvEyDlXzdIc076pg5S3B_TdlFWVfar7N2lZv6UNj9bMz79wFB9iVOxuCQkk-nKMoGz3uBPBPEhhQMt3XqBHzsd31L6jZuKIPe6F1AaXbjebfYFeuxH_aUqOJEPhJqg-ca2zWEpVlJD1b1HRN0dbFJjJUhMs_RJ1dyR59sGvGqmlKrMzhS_H6aVMY20NrFi0HSx8-xaULF6aEvn9kdfqn07DnNZ9kTseYFRY" style="">
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[12px] font-bold text-primary" style="">HIGH HUMIDITY</div>
+</div>
+<h4 class="font-headline-md text-primary group-hover:text-secondary transition-colors" style="">Boston Fern</h4>
+<p class="text-outline text-sm" style="">High humidity • Partial shade</p>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-4 relative">
+<img alt="Plant 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A fiddle leaf fig tree with large broad leaves in a bright modern living room setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADHduKvX-NL2tn3sh-kELnnGp5j-1A0AOZl2euYXDxBgDKZ6Pgm4YQzn0pOnyQ4E-qL3Yg2zA8E-bNZ5kF9ikk-HEiyxwQIqTYapSmLjKSkyW9nMOXI6na0Wle72uY11pOsJuz3BwqkMNcC6F1wz1ckJaM0DVlw3k9J1cyzQlV_bsvUkoSUwKgSFyNGhOZFwGZGDf3nq6KrpxfKf3jQLV4SJb8tCX529lpUf78vzeb-YVyp_wgTjgQrWTrfCEzkN3n13oO759-nV4" style="">
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[12px] font-bold text-primary" style="">STATEMENT</div>
+</div>
+<h4 class="font-headline-md text-primary group-hover:text-secondary transition-colors" style="">Fiddle Leaf Fig</h4>
+<p class="text-outline text-sm" style="">Bright light • Moderate care</p>
+</div>
+<!-- Card 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-4 relative">
+<img alt="Plant 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A minimalist white orchid flower in full bloom with a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOv_r3Mu9nUaI7RgRAMutD_u_x3SjaahxFyPDSsObHuR8odc27es8YG7ZGiFYWn9NLZGDzHRGZwaSsV3tKjfB7oaq_s5V4B7F0hHBqgwQ37Hvg5uWUfQTpMCWw6qXELBH2xmc0x7GPdGBBdgxDQv47u9VW1FwNn4GfY_PpZAr8tkuiYoes7iBla4XfXx2V0uy90_1kI0otex3n1hDZNaYbaZrlLE_-RxlcyVRtSaDXzCTcjTv4gOBJh3ivo_sffMMAXqVTXvRodBk" style="">
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[12px] font-bold text-primary" style="">FLOWERING</div>
+</div>
+<h4 class="font-headline-md text-primary group-hover:text-secondary transition-colors" style="">Phalaenopsis Orchid</h4>
+<p class="text-outline text-sm" style="">Filtered light • Seasonal bloom</p>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-xl px-12 bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="bg-surface-container px-12 py-20 rounded-[48px] relative overflow-hidden">
+<!-- Subtle background decoration -->
+<div class="absolute top-0 right-0 p-12 opacity-10">
+<span class="material-symbols-outlined text-[160px]" data-icon="format_quote" style="">format_quote</span>
+</div>
+<div class="max-w-3xl relative z-10">
+<div class="flex gap-1 mb-8">
+<span class="material-symbols-outlined text-tertiary-container" data-icon="star" data-weight="fill" style="">star</span>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="star" data-weight="fill" style="">star</span>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="star" data-weight="fill" style="">star</span>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="star" data-weight="fill" style="">star</span>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="star" data-weight="fill" style="">star</span>
+</div>
+<h2 class="font-headline-lg text-primary mb-10 italic leading-relaxed" style="">"Organic Botanist completely changed my relationship with my home garden. I used to guess when to water; now I have a scientific blueprint for every plant in my collection. It’s like having a master gardener in my pocket."</h2>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full overflow-hidden organic-shadow">
+<img alt="Testimonial" class="w-full h-full object-cover" data-alt="Close up portrait of a middle-aged woman smiling warmly with professional attire and soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsQcU_uQ6fCaUh6CkfVZPWGxildGK2vmqIaZRrH1uEMj-rXylbNUwlbXIu7O0Rxg2mftvVP_z5dYT0LubT_OkIHeek8KYEW6gAONNqR0Cx_fnxwyTayt9JnpOiEisZ8d0yrRtoDgUmY-n4eCiwhWc89zNi6PiXAdyTo0hPzsy4uR7PZ3hnTgRNoBymYuf2_ZmZzbudD9Ejb5wu3R-SmBPzMaw8Vu2odl9RzNQgiPs43N6pYuUFnMzuVf0SUJI6ijU7-IV62z09pXM" style="">
+</div>
+<div>
+<p class="font-bold text-primary font-body-lg" style="">Dr. Elena Rostova</p>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-widest" style="">Landscape Architect</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter CTA -->
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-[32px] bg-zinc-50 dark:bg-zinc-950 border-t border-green-100/50 dark:border-zinc-800">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto px-12 py-16 font-serif text-sm leading-relaxed">
+<div>
+<span class="font-serif font-bold text-xl text-green-800 mb-6 block" style="">Organic Botanist</span>
+<p class="text-zinc-600 dark:text-zinc-400 max-w-xs" style="">
+                    Nurturing scientific curiosity through the intersection of digital precision and natural wonder.
+                </p>
+</div>
+<div class="flex flex-col gap-6">
+<h4 class="font-bold text-green-900 dark:text-green-100" style="">Contact</h4>
+<p class="text-zinc-600 dark:text-zinc-400" style="">Questions? Reach out to our team of botanists anytime.</p>
+<a class="text-green-700 dark:text-green-300 font-bold hover:text-green-600" href="mailto:hello@organicbotanist.com" style="">shivani.raj.urs1105@gmail.com</a>
+<div class="pt-6 border-t border-green-100/50">
+<p class="text-zinc-500" style="">© 2024 Organic Botanist. Nurturing scientific curiosity.</p>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

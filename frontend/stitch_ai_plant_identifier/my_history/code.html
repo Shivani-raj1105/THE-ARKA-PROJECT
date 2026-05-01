@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "surface-tint": "#3b6934",
+                  "secondary": "#4b6542",
+                  "surface-container-low": "#f3f4f0",
+                  "error-container": "#ffdad6",
+                  "on-primary-fixed": "#002201",
+                  "inverse-primary": "#a1d494",
+                  "on-background": "#1a1c1a",
+                  "tertiary-container": "#6d4820",
+                  "on-tertiary": "#ffffff",
+                  "on-tertiary-container": "#ecb987",
+                  "primary-fixed-dim": "#a1d494",
+                  "on-secondary-fixed-variant": "#344d2c",
+                  "outline-variant": "#c2c9bb",
+                  "background": "#f9faf6",
+                  "on-error": "#ffffff",
+                  "tertiary-fixed": "#ffdcbd",
+                  "surface-variant": "#e2e3df",
+                  "error": "#ba1a1a",
+                  "on-surface": "#1a1c1a",
+                  "secondary-fixed-dim": "#b1cfa4",
+                  "surface-container-highest": "#e2e3df",
+                  "on-primary-container": "#9dd090",
+                  "inverse-on-surface": "#f0f1ed",
+                  "tertiary-fixed-dim": "#f0bd8b",
+                  "secondary-fixed": "#cdebbe",
+                  "on-tertiary-fixed": "#2c1600",
+                  "secondary-container": "#cae9bc",
+                  "on-primary": "#ffffff",
+                  "on-error-container": "#93000a",
+                  "primary-container": "#2d5a27",
+                  "surface-container": "#edeeea",
+                  "on-secondary": "#ffffff",
+                  "primary-fixed": "#bcf0ae",
+                  "on-tertiary-fixed-variant": "#623f18",
+                  "on-surface-variant": "#42493e",
+                  "surface-dim": "#d9dad7",
+                  "inverse-surface": "#2e312f",
+                  "tertiary": "#52320b",
+                  "on-secondary-fixed": "#092005",
+                  "on-primary-fixed-variant": "#23501e",
+                  "on-secondary-container": "#4f6a46",
+                  "outline": "#72796e",
+                  "surface-bright": "#f9faf6",
+                  "surface-container-high": "#e7e9e5",
+                  "surface": "#f9faf6",
+                  "surface-container-lowest": "#ffffff",
+                  "primary": "#154212"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin": "32px",
+                  "md": "24px",
+                  "base": "8px",
+                  "sm": "12px",
+                  "xs": "4px",
+                  "lg": "48px",
+                  "gutter": "24px",
+                  "xl": "80px"
+          },
+          "fontFamily": {
+                  "headline-xl": ["Newsreader"],
+                  "label-sm": ["Plus Jakarta Sans"],
+                  "headline-md": ["Newsreader"],
+                  "body-lg": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Newsreader"],
+                  "body-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                  "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                  "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                  "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .plant-mask {
+      clip-path: circle(45% at 50% 50%);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-green-50 dark:border-zinc-800 shadow-[0_10px_30px_rgba(45,90,39,0.05)]">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-12 py-5">
+<div class="font-serif font-bold text-2xl text-green-900 dark:text-green-100 italic" style="">Organic Botanist</div>
+<div class="hidden md:flex items-center gap-8 font-serif text-lg tracking-tight">
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors" href="#" style="">Identify</a>
+<a class="text-green-700 dark:text-green-300 border-b-2 border-green-700 pb-1 font-semibold" href="#" style="">History</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors" href="#" style=""><br></a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-green-600 transition-colors" href="#" style="">Profile</a>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search and Notifications removed per request -->
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-xl max-w-7xl mx-auto px-12">
+<header class="mb-lg text-center">
+<h1 class="font-headline-xl text-primary mb-2" style="">My Garden</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto" style="">A curated archive of your botanical discoveries and scientific observations.</p>
+</header>
+<div class="flex flex-col gap-gutter">
+<!-- History Grid -->
+<div class="flex-1">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-transparent hover:border-primary-container/30 hover:-translate-y-1 transition-all group">
+<div class="relative mb-md overflow-hidden rounded-lg aspect-square">
+<img alt="Monstera Deliciosa" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" data-alt="close-up of a vibrant green Monstera Deliciosa leaf with characteristic splits and soft natural morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuI689nAc_7kxkc6X0OFHLEPKAPf51XN1R9HhVa2QqA2tZzqEdWQYXU-OJIb-FbFufCwgZTUSkmLP4lOl1fXZ7Qe2lhZv1KMjlZM7F0WJ-jTwwkRk_j_AIP5Pfwb9CeBDjbwo8-V-bE3erxrLGlRCz9QaGbXbUhGvtNVTzEprWfog_UidW5YcL3SSyskyd6CT6Xy6tfr7jLFthD783oSPvqfW4DR_WPyFXfbZvieTNRKOg2c9gII7XaPOPby2FscF7y2vK-PCwrbU" style="">
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Succulent</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-lg text-primary" style="">Monstera Deliciosa</h4>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="more_vert" style="">more_vert</span>
+</div>
+<p class="italic text-xs text-secondary font-serif mb-2" style="">Araceae Family</p>
+<div class="flex items-center gap-2 text-[12px] text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" style="">calendar_today</span>
+<span class="" style="">May 14, 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-transparent hover:border-primary-container/30 hover:-translate-y-1 transition-all group">
+<div class="relative mb-md overflow-hidden rounded-lg aspect-square">
+<img alt="Snake Plant" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" data-alt="vertical snake plant leaves with yellow edges in a minimalist ceramic pot against a neutral wall background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_SFO3A51ZZ9oHmNJcX-wKXetvtaz7aOsT8pIsLqhl_hNlGo42fSkoLNzKZI95S385k_-F6zTgx4ELp0Y0QO9KGmeMbZ5wshd5MPN3K25uE9ngfW_E7d4kCv8fAG99kkQWlgnxi2fbKqh-g8uGHYsregol4NsfvG2a3RvQ-9qFQr1CQHvM14bVqFvly2qfdphxS9_la60uKWsB7h6Wwi7KLGC4S9h0Y4sJwytjuRihc7AEAiOHRPRwT7UKS0Q-MDQ4JRYcvf2hORE" style="">
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Low Light</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-lg text-primary" style="">Sansevieria</h4>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="more_vert" style="">more_vert</span>
+</div>
+<p class="italic text-xs text-secondary font-serif mb-2" style="">Dracaenaceae Family</p>
+<div class="flex items-center gap-2 text-[12px] text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" style="">calendar_today</span>
+<span class="" style="">May 02, 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-transparent hover:border-primary-container/30 hover:-translate-y-1 transition-all group">
+<div class="relative mb-md overflow-hidden rounded-lg aspect-square">
+<img alt="Pilea Peperomioides" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" data-alt="a small pilea plant with round pancake-shaped leaves in a terracotta pot with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-8fBvXDfGRCD_Yn7dD-_9g72NFP9j-6cJnVfZCEOwHgH4Cs_wvwhV5FUADlGf--LDYmDdDYis4JEFXlR_fjtC8cGZypYMFKKbv9fGItWWTr-B_yB2iu6G6F62kxN_TdW2Pr28pvRJkXOPHhX5k4_AdDl-o7eeaaZhk_B_Zxm8vt-AFB_m8jMrxp4q8s4zw4cDr_QmHPBA_NEGgzAh6uqHj8_nXvoT8R5W--WclTFWAssyvwkzo04CZrV5F3lb541FxxtIbBF1-7o" style="">
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Indoor</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-lg text-primary" style="">Pilea Peperomioides</h4>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="more_vert" style="">more_vert</span>
+</div>
+<p class="italic text-xs text-secondary font-serif mb-2" style="">Urticaceae Family</p>
+<div class="flex items-center gap-2 text-[12px] text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" style="">calendar_today</span>
+<span class="" style="">April 28, 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-transparent hover:border-primary-container/30 hover:-translate-y-1 transition-all group">
+<div class="relative mb-md overflow-hidden rounded-lg aspect-square">
+<img alt="Fiddle Leaf Fig" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" data-alt="large broad leaves of a fiddle leaf fig tree with prominent veins in a sun-drenched conservatory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFtIemPKpSPhUtTJYsTvAQ9oDmgKku1GNV2dtntjyj8hdIPsQcDOwZ5qSCv7-uDtkO3Bq9vdWjB4n0FW5EOadUp4Z13cMr4xdbXpqJD8QTFlgT9gTbrJ-1r98yPbf2qyru8mgL8jSsu_uP0pGYJzWz7uf7ldXQi0sGu9zY9kTr5XU0fV4Wyn4_PGd6RNMlTze0NPEWIZVo0j6GYqJpJR6vWiPS02bQz0-wPWNyJ1KIUB33_ZbKvS9WNN_bnFKWtm6jLjtiPyA5qts" style="">
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Tree</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-lg text-primary" style="">Ficus Lyrata</h4>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="more_vert" style="">more_vert</span>
+</div>
+<p class="italic text-xs text-secondary font-serif mb-2" style="">Moraceae Family</p>
+<div class="flex items-center gap-2 text-[12px] text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" style="">calendar_today</span>
+<span class="" style="">April 15, 2024</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_10px_30px_rgba(45,90,39,0.05)] border border-transparent hover:border-primary-container/30 hover:-translate-y-1 transition-all group">
+<div class="relative mb-md overflow-hidden rounded-lg aspect-square">
+<img alt="Bird of Paradise" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" data-alt="close-up of the orange and blue flower of a bird of paradise plant with morning dew drops" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb416sr9wyiEKg3Einv9f-gvYZHtu1JYSNLFxiH5y4GcpOp6yOMn1SY-TmOXwOylbN10b3_t4P8hsUNDdVVcD8gUbge7zRdBWgRDmBnpWDsVcluMXXsX7k7IOTn5t0h_ZtkxHLYhjZGh_YLr4cdG5hSrqehIIJ91PMExAsJUsUMqB1anfLOhT94fVNgoyqtpzVSt0S_bFak3JQEJHnztG3dlP_eLlbBrnkRgCOKWacVYu8-baxzNZDxhy6wXFIwGfQKR85ayIW0Xc" style="">
+<span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Tropical</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-lg text-primary" style="">Strelitzia Reginae</h4>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="more_vert" style="">more_vert</span>
+</div>
+<p class="italic text-xs text-secondary font-serif mb-2" style="">Strelitziaceae Family</p>
+<div class="flex items-center gap-2 text-[12px] text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" style="">calendar_today</span>
+<span class="" style="">March 30, 2024</span>
+</div>
+</div>
+</div>
+<!-- Identify New Plant placeholder card removed per request -->
+</div>
+<!-- Pagination -->
+<div class="mt-lg flex justify-center items-center gap-4">
+<span class="text-sm font-semibold text-primary" style=""><br></span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-[32px] bg-zinc-50 dark:bg-zinc-950 border-t border-green-100/50 dark:border-zinc-800">
+<div class="max-w-7xl mx-auto px-12 py-16">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-4">
+<div class="font-serif font-bold text-xl text-green-800" style="">Organic Botanist</div>
+<p class="font-serif text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-xs" style="">Empowering the world to understand and care for nature's diversity through scientific identification and shared knowledge.</p>
+<p class="text-[10px] text-zinc-500 uppercase tracking-widest mt-8" style="">© 2024 Organic Botanist. Nurturing scientific curiosity.</p>
+</div>
+<!-- Resources, Company, and Newsletter sections removed per request -->
+</div>
+</div>
+</footer>
+</body></html>
