@@ -310,3 +310,12 @@ docker exec -it plant_db psql -U postgres -d plants
 | `docker-compose.yml` | `docker-compose up` | Fast |
 
 The pip install layer is Docker-cached — it only re-runs when `requirements.txt` changes. PyTorch (~800 MB) is the dominant download on first build.
+
+Frontend Frames:
+<img width="1894" height="904" alt="Screenshot 2026-05-01 195030" src="https://github.com/user-attachments/assets/bc59d18f-fa28-4752-aedb-8da848343e2d" />
+<img width="1885" height="913" alt="Screenshot 2026-05-01 195125" src="https://github.com/user-attachments/assets/6c224aff-0c80-4828-b571-501be8812ea0" />
+<img width="1886" height="893" alt="Screenshot 2026-05-01 195136" src="https://github.com/user-attachments/assets/a4512a71-7ad5-4b96-ae6e-00df21fce75a" />
+<img width="1838" height="892" alt="Screenshot 2026-05-01 195151" src="https://github.com/user-attachments/assets/d26a5bbf-f198-4576-8823-c19ffb24bf71" />
+
+
+
