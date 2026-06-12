@@ -1,321 +1,447 @@
-# Organic Botanist — AI Plant Detection Platform
+# Organic Botanist — Distributed AI Plant Detection Platform
 
-A full-stack plant identification web application powered by a YOLOv8 object detection model, served through an asynchronous FastAPI + Celery pipeline, backed by PostgreSQL, and brokered via Redis. The system supports user authentication, per-user detection history, and a fully connected browser-based frontend — all containerised with Docker Compose.
+A full-stack computer vision platform for plant identification built around an asynchronous inference pipeline using YOLOv8, FastAPI, Celery, Redis, and PostgreSQL.
 
----
-
-## Table of Contents
-
-- [Architecture Overview](#architecture-overview)
-- [Tech Stack](#tech-stack)
-- [System Design](#system-design)
-- [Project Structure](#project-structure)
-- [Database Schema](#database-schema)
-- [API Reference](#api-reference)
-- [Authentication](#authentication)
-- [Frontend](#frontend)
-- [Environment Variables](#environment-variables)
-- [Running Locally](#running-locally)
-- [Rebuild Behaviour](#rebuild-behaviour)
+The system demonstrates how modern ML services can decouple user-facing APIs from computationally expensive inference workloads while maintaining responsiveness, scalability, and persistent user history.
 
 ---
 
-## Architecture Overview
+# Overview
+
+Organic Botanist is an AI-powered plant identification platform designed to process uploaded images and return object detection results through an asynchronous backend architecture.
+
+Rather than performing expensive model inference directly inside HTTP request handlers, the platform offloads computation to background workers using Celery and Redis. This enables responsive APIs while supporting concurrent inference workloads.
+
+Key capabilities include:
+
+* AI-based plant identification using YOLOv8
+* Asynchronous inference pipeline
+* User authentication
+* Detection history
+* Persistent task tracking
+* Docker-based deployment
+* Browser-based frontend
+
+---
+
+# System Architecture
 
 ```
 Browser
-  │
-  ▼
-FastAPI (port 8000)          ← serves HTML pages + REST API
-  │
-  ├── POST /detect           ← accepts image upload
-  │       │
-  │       └──► Celery Task ──► Redis (broker) ──► Celery Worker
-  │                                                     │
-  │                                               YOLOv8 inference
-  │                                               (best.pt model)
-  │                                                     │
-  │                                               PostgreSQL write
-  │
-  ├── GET /result/{task_id}  ← frontend polls until SUCCESS
-  │
-  └── GET /users/me/history  ← returns completed detections for user
-```
-
-The detection pipeline is fully asynchronous. The API accepts an image, enqueues a Celery task, and immediately returns a `task_id`. The frontend polls `/result/{task_id}` every 3 seconds until the worker completes inference and writes the result to PostgreSQL.
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Web framework | FastAPI 0.111 |
-| ASGI server | Uvicorn 0.29 with WatchFiles hot-reload |
-| Task queue | Celery 5.6.2 |
-| Message broker / result backend | Redis 7 |
-| Object detection model | YOLOv8 via Ultralytics 8.2.18 |
-| Deep learning runtime | PyTorch 2.5.1 + TorchVision 0.20.1 |
-| Database | PostgreSQL 15 |
-| DB driver | psycopg2-binary 2.9.9 |
-| Authentication | Custom HMAC-SHA256 signed tokens (JWT-compatible structure, zero extra deps) |
-| Frontend | Vanilla HTML + Tailwind CSS (CDN) + ES Modules |
-| Containerisation | Docker + Docker Compose v2 |
-
----
-
-## System Design
-
-### Async Detection Pipeline
-
-1. Client `POST /detect` with `multipart/form-data` image
-2. FastAPI writes file to `/shared` volume (shared between API and worker containers)
-3. `detect_plant_task.delay(file_path, user_id)` enqueues task to Redis
-4. API returns `{ "task_id": "<uuid>" }` immediately
-5. Celery worker picks up task, loads YOLOv8 model (kept in memory across tasks), runs inference
-6. Worker writes `status=SUCCESS` + JSON result to `plant_tasks` table
-7. Frontend polls `GET /result/{task_id}` — returns `{ status, result }` from Celery's Redis backend
-8. On `SUCCESS`, result is rendered in the browser
-
-### Authentication Flow
-
-- Passwords hashed with HMAC-SHA256 + 16-byte random salt, stored as base64
-- Tokens are `base64url(header).base64url(payload).base64url(HMAC-SHA256-signature)`
-- Token payload: `{ sub: user_id, email, exp: unix_timestamp }`
-- Token lifetime: 7 days
-- All protected endpoints read `Authorization: Bearer <token>` header
-- `/detect` accepts optional auth — anonymous detections are allowed but not saved to history
-
-### Container Networking
-
-All services communicate over Docker's internal bridge network by container name:
-- API → DB: `plant_db:5432`
-- API → Redis: `plant_redis:6379`
-- Worker → DB: `plant_db:5432`
-- Worker → Redis: `plant_redis:6379`
-
-The `/shared` named volume is mounted in both `api` and `worker` containers so uploaded images are accessible to the worker without HTTP transfer.
-
----
-
-## Project Structure
-
-```
-.
-├── app/
-│   ├── main.py          # FastAPI app, all routes, dependency injection
-│   ├── worker.py        # Celery app + detect_plant_task task definition
-│   ├── detection.py     # PlantDetector class wrapping YOLOv8
-│   ├── auth.py          # Password hashing, token creation/verification
-│   ├── database.py      # psycopg2 connection factory, RealDictCursor helper
-│   └── __init__.py
-├── frontend_dist/       # Served directly by FastAPI (no build step)
-│   ├── index.html       # Plant identification page (requires auth)
-│   ├── login.html       # Sign-in page (served at /)
-│   ├── signup.html      # Registration page
-│   ├── history.html     # Per-user detection history
-│   ├── profile.html     # Profile management
-│   └── api.js           # ES module: token management + all fetch wrappers
-├── db_init/
-│   └── init.sql         # PostgreSQL schema, auto-run on first container start
-├── frontend/            # Original static design mockups (reference only)
-├── best.pt              # YOLOv8 trained weights (not committed — add manually)
-├── Dockerfile
-├── docker-compose.yml
-└── requirements.txt
+   │
+   ▼
+FastAPI
+   │
+   ├── Authentication
+   │
+   ├── Image Upload
+   │
+   └── Task Creation
+          │
+          ▼
+      Redis Broker
+          │
+          ▼
+    Celery Worker
+          │
+          ▼
+    YOLOv8 Inference
+          │
+          ▼
+     PostgreSQL
+          │
+          ▼
+     Detection History
+          │
+          ▼
+      Browser Results
 ```
 
 ---
 
-## Database Schema
+# Core Features
 
-```sql
-CREATE TABLE users (
-    id            SERIAL PRIMARY KEY,
-    full_name     TEXT NOT NULL,
-    email         TEXT UNIQUE NOT NULL,
-    phone         TEXT,
-    bio           TEXT,
-    password_hash TEXT NOT NULL,
-    created_at    TIMESTAMPTZ DEFAULT NOW()
-);
+## AI Plant Detection
 
-CREATE TABLE plant_tasks (
-    task_id        TEXT PRIMARY KEY,       -- Celery task UUID
-    user_id        INTEGER REFERENCES users(id) ON DELETE SET NULL,
-    status         TEXT NOT NULL DEFAULT 'PENDING',
-    input_file_path TEXT,
-    result         TEXT,                   -- JSON-encoded detection result
-    created_at     TIMESTAMPTZ DEFAULT NOW()
-);
+* YOLOv8 object detection
+* Confidence scoring
+* Multiple plant detection support
+* Background inference
+
+## Asynchronous Processing
+
+* Non-blocking API responses
+* Celery task queue
+* Redis message broker
+* Task polling
+
+## User Management
+
+* Registration
+* Login
+* Secure authentication
+* Personal detection history
+
+## Persistent Storage
+
+* PostgreSQL backend
+* User profiles
+* Detection records
+* Task state management
+
+## Containerised Deployment
+
+* Docker
+* Docker Compose
+* Shared storage volumes
+* Service isolation
+
+---
+
+# Technology Stack
+
+| Layer            | Technology                     |
+| ---------------- | ------------------------------ |
+| Backend          | FastAPI                        |
+| ASGI             | Uvicorn                        |
+| Task Queue       | Celery                         |
+| Broker           | Redis                          |
+| ML Model         | YOLOv8                         |
+| Deep Learning    | PyTorch                        |
+| Database         | PostgreSQL                     |
+| Authentication   | Custom HMAC-SHA256             |
+| Frontend         | HTML, Tailwind CSS, JavaScript |
+| Containerisation | Docker                         |
+
+---
+
+# Detection Workflow
+
+The inference pipeline follows an asynchronous execution model.
+
+## Step 1
+
+The user uploads an image.
+
 ```
-
-Detection results stored in `result` column follow this structure:
-
-```json
-{ "detections": [{ "class": "rose", "confidence": 0.943 }] }
-// or
-{ "status": "No plant is detected" }
+POST /detect
 ```
 
 ---
 
-## API Reference
+## Step 2
 
-### Auth
+FastAPI validates the request and stores the uploaded image.
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/auth/register` | None | Create account, returns token |
-| `POST` | `/auth/login` | None | Authenticate, returns token |
-| `GET` | `/auth/me` | Required | Fetch current user profile |
+---
 
-**Register / Login response:**
-```json
+## Step 3
+
+A Celery task is created.
+
+```
+detect_plant_task.delay(...)
+```
+
+The API immediately returns:
+
+```
 {
-  "token": "<signed-token>",
-  "user": { "id": 1, "full_name": "Jane Smith", "email": "jane@example.com" }
+    "task_id": "<uuid>"
 }
 ```
 
-### User
+---
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `PUT` | `/users/me` | Required | Update full_name, phone, bio |
-| `GET` | `/users/me/history` | Required | Last 50 successful detections |
+## Step 4
 
-### Detection
+The Celery worker:
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/detect` | Optional | Upload image, returns task_id |
-| `GET` | `/result/{task_id}` | None | Poll task status and result |
-
-**Detect request:** `multipart/form-data` with field `file`
-
-**Result response:**
-```json
-{
-  "task_id": "f46b2ea8-56ec-...",
-  "status": "SUCCESS",
-  "result": { "detections": [{ "class": "sunflower", "confidence": 0.981 }] }
-}
-```
-
-### Pages
-
-| Method | Endpoint | Serves |
-|---|---|---|
-| `GET` | `/` | `login.html` |
-| `GET` | `/login` | `login.html` |
-| `GET` | `/signup` | `signup.html` |
-| `GET` | `/identify` | `index.html` (auth-gated client-side) |
-| `GET` | `/history` | `history.html` |
-| `GET` | `/profile` | `profile.html` |
-| `GET` | `/api.js` | ES module shared by all pages |
+* loads the YOLOv8 model,
+* performs inference,
+* generates predictions,
+* stores results.
 
 ---
+
+## Step 5
+
+The frontend periodically polls:
+
+```
+GET /result/{task_id}
+```
+
+until completion.
+
+---
+
+## Step 6
+
+Successful detections are displayed and optionally stored in the user's history.
+
+---
+
+# Authentication
+
+Authentication is implemented without external JWT libraries.
+
+Features include:
+
+* HMAC-SHA256 signing
+* Random password salts
+* Seven-day token lifetime
+* Bearer authentication
+* Optional anonymous detections
+
+Protected endpoints validate:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+# Database Design
+
+Two primary entities drive the application.
+
+## Users
+
+Stores:
+
+* account information,
+* credentials,
+* profile metadata.
+
+## Plant Tasks
+
+Stores:
+
+* task IDs,
+* user ownership,
+* inference status,
+* prediction outputs,
+* timestamps.
+
+Detection outputs are persisted as JSON structures for future retrieval.
+
+---
+
+# API Overview
 
 ## Authentication
 
-Token format (no external JWT library):
-
 ```
-base64url({"alg":"HS256","typ":"JWT"})
-  .base64url({"sub":<id>,"email":"...","exp":<unix>})
-  .base64url(HMAC-SHA256(header.body, SECRET_KEY))
-```
+POST /auth/register
 
-The frontend stores the token in `localStorage` under key `ob_token`. Every API request attaches it as `Authorization: Bearer <token>`. A 401 response from any endpoint triggers an automatic logout and redirect to `/login`.
+POST /auth/login
+
+GET /auth/me
+```
 
 ---
 
-## Frontend
+## User
 
-All pages are plain HTML files with no build toolchain. Tailwind CSS is loaded from CDN. JavaScript uses native ES Modules (`type="module"`), so `api.js` is imported directly in each page:
+```
+PUT /users/me
 
-```js
-import { login, isLoggedIn, fetchHistory } from '/api.js';
+GET /users/me/history
 ```
 
-`api.js` exports:
-- `getToken / setToken / removeToken` — localStorage token management
-- `getUser / setUser / removeUser` — cached user object
-- `isLoggedIn()` — boolean check
-- `logout()` — clears storage, redirects to `/login`
-- `register(full_name, email, password, phone)` — POST /auth/register
-- `login(email, password)` — POST /auth/login
-- `fetchMe()` — GET /auth/me
-- `updateProfile(payload)` — PUT /users/me
-- `detect(file)` — POST /detect with FormData
-- `pollResult(taskId, maxAttempts=60, intervalMs=3000)` — polls /result/:id
-- `fetchHistory()` — GET /users/me/history
+---
+
+## Detection
+
+```
+POST /detect
+
+GET /result/{task_id}
+```
 
 ---
 
-## Environment Variables
+# Frontend
 
-| Variable | Default | Description |
-|---|---|---|
-| `DATABASE_URL` | `postgresql://postgres:postgres@plant_db:5432/plants` | PostgreSQL connection string |
-| `REDIS_URL` | `redis://plant_redis:6379/0` | Redis broker + backend URL |
-| `SECRET_KEY` | `change-me-in-production-...` | HMAC key for token signing — **change this** |
+The frontend is intentionally lightweight.
 
-Set in `docker-compose.yml` under each service's `environment` block.
+Built with:
+
+* HTML
+* Tailwind CSS
+* Vanilla JavaScript
+* ES Modules
+
+Features:
+
+* Login
+* Registration
+* Plant identification
+* Detection history
+* User profiles
+* Automatic task polling
 
 ---
 
-## Running Locally
+# Project Structure
 
-**Prerequisites:** Docker Desktop, `best.pt` model file in project root.
+```
+app/
+
+    main.py
+
+    worker.py
+
+    detection.py
+
+    auth.py
+
+    database.py
+
+frontend_dist/
+
+    login.html
+
+    signup.html
+
+    index.html
+
+    history.html
+
+    profile.html
+
+    api.js
+
+db_init/
+
+Dockerfile
+
+docker-compose.yml
+
+requirements.txt
+```
+
+---
+
+# Running Locally
+
+## Requirements
+
+* Docker Desktop
+
+* YOLOv8 weights
+
+---
+
+Clone:
 
 ```bash
-# First run (builds images, ~10 min due to PyTorch download)
-docker-compose up --build
+git clone <repository>
+```
 
-# Subsequent runs (uses cached layers, ~5 sec)
+Build:
+
+```bash
+docker-compose up --build
+```
+
+Run:
+
+```bash
 docker-compose up
 ```
 
-Open **http://localhost:8000**
+Open:
 
-### Useful commands
-
-```bash
-# View live logs
-docker logs plant_api -f
-docker logs plant_worker -f
-
-# Restart only the API (picks up Python file changes)
-docker restart plant_api
-
-# Open a shell inside the API container
-docker exec -it plant_api bash
-
-# Connect to PostgreSQL directly
-docker exec -it plant_db psql -U postgres -d plants
+```
+http://localhost:8000
 ```
 
 ---
 
-## Rebuild Behaviour
+# Current Capabilities
 
-| Change made | Action required | Speed |
-|---|---|---|
-| `app/*.py` | None — uvicorn `--reload` auto-detects | Instant |
-| `frontend_dist/*.html` / `api.js` | Hard refresh browser (Ctrl+Shift+R) | Instant |
-| `requirements.txt` | `docker-compose up --build` | Slow (pip reinstall) |
-| `Dockerfile` | `docker-compose up --build` | Slow |
-| `docker-compose.yml` | `docker-compose up` | Fast |
+Implemented:
 
-The pip install layer is Docker-cached — it only re-runs when `requirements.txt` changes. PyTorch (~800 MB) is the dominant download on first build.
+* FastAPI backend
 
-Frontend Frames:
+* YOLOv8 integration
+
+* Celery workers
+
+* Redis broker
+
+* PostgreSQL persistence
+
+* User authentication
+
+* Detection history
+
+* Docker deployment
+
+* Browser frontend
+
+---
+
+# Engineering Decisions
+
+Several architectural choices were made to improve reliability.
+
+## Background Workers
+
+Inference is separated from HTTP requests to prevent blocking.
+
+## Shared Volumes
+
+Uploaded images are shared between API and worker containers without additional network transfer.
+
+## Persistent Task Tracking
+
+Task states are maintained independently of frontend sessions.
+
+## Stateless APIs
+
+Authentication tokens allow horizontal scaling.
+
+---
+
+# Future Work
+
+Potential extensions include:
+
+* WebSocket-based live updates
+
+* Batch image processing
+
+* Multi-model inference
+
+* Mobile deployment
+
+* Model versioning
+
+* Explainable AI visualisations
+
+* Distributed worker scaling
+
+---
+
+# Frontend
+
+(Keep all existing screenshots exactly as they are.)
+
 <img width="1894" height="904" alt="Screenshot 2026-05-01 195030" src="https://github.com/user-attachments/assets/bc59d18f-fa28-4752-aedb-8da848343e2d" />
+
 <img width="1885" height="913" alt="Screenshot 2026-05-01 195125" src="https://github.com/user-attachments/assets/6c224aff-0c80-4828-b571-501be8812ea0" />
+
 <img width="1886" height="893" alt="Screenshot 2026-05-01 195136" src="https://github.com/user-attachments/assets/a4512a71-7ad5-4b96-ae6e-00df21fce75a" />
+
 <img width="1838" height="892" alt="Screenshot 2026-05-01 195151" src="https://github.com/user-attachments/assets/d26a5bbf-f198-4576-8823-c19ffb24bf71" />
 
+---
 
+# License
 
+This project is intended for educational and research purposes.
+
+MIT License.
